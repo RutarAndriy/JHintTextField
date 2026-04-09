@@ -5,6 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.event.*;
+import javax.swing.text.Document;
 
 // ............................................................................
 /// Реалізація текстового поля введення з підказкою
@@ -25,10 +26,42 @@ private int textX, textY;                            // Позиція текс�
 private static ArrayList <JHintTextFieldListener> listeners = null;
 
 // ============================================================================
-/// Конструктор за замовчуванням
+/// Допоміжний конструктор
 
 public JHintTextField()
-    { addFocusListener(focusListener);
+    { this(null, null, 0); }
+
+// ============================================================================
+/// Допоміжний конструктор
+/// @param text початковий текст
+
+public JHintTextField (String text)
+    { this(null, text, 0); }
+
+// ============================================================================
+/// Допоміжний конструктор
+/// @param columns кількість стовбців
+
+public JHintTextField (int columns)
+    { this(null, null, columns); }
+
+// ============================================================================
+/// Допоміжний конструктор
+/// @param text початковий текст
+/// @param columns кількість стовбців
+
+public JHintTextField (String text, int columns)
+    { this(null, text, columns); }
+
+// ============================================================================
+/// Головний конструктор
+/// @param doc об'єкт класу Document
+/// @param text початковий текст
+/// @param columns кількість стовбців
+
+public JHintTextField (Document doc, String text, int columns)
+    { super(doc, text, columns);
+      addFocusListener(focusListener);
       getDocument().addDocumentListener(docListener); }
 
 // ============================================================================
