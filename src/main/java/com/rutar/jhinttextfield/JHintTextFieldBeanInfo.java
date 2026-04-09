@@ -7,7 +7,6 @@ import java.beans.*;
 import javax.imageio.*;
 
 import static java.beans.BeanInfo.*;
-import static com.rutar.jhinttextfield.JHintTextField.*;
 
 // ............................................................................
 /// Реалізація класу-дескриптора для JavaBeans-компонента
@@ -20,8 +19,6 @@ public class JHintTextFieldBeanInfo extends SimpleBeanInfo {
 private static BeanDescriptor beanDescriptor;
 /// Батьківський клас компонента
 private final Class parentClass = JHintTextField.class.getSuperclass();
-/// Масив перелічуваних значень
-private final ArrayList<Object> valuesList = new ArrayList<>();
 
 // ============================================================================
 /// Повернення дескриптора JavaBeans-компонента
@@ -47,15 +44,11 @@ ArrayList <PropertyDescriptor> properties = new ArrayList<>();
 try {
 
 // ............................................................................
-// Отримання властивостей суперкласу та задання їх непріоритетності
+// Додавання властивостей суперкласу до загального списку властивостей
 
 PropertyDescriptor[] descriptors = Introspector.getBeanInfo(parentClass)
                                                .getPropertyDescriptors();
-
-for (var descriptor : descriptors) {
-    descriptor.setPreferred(false);
-    properties.add(descriptor);
-}
+properties.addAll(Arrays.asList(descriptors));
 
 // ............................................................................
 // Додавання нових властивостей та задання їх пріоритетності
@@ -69,29 +62,18 @@ for (var descriptor : descriptors) {
 // setBound()     - якщо true, генерує подію PropertyChange
 // setPreferred() - якщо true, властивість попадає в список улюблених
 
-// Тип усмішки
-property = new PropertyDescriptor("smile", JHintTextField.class,
-                                  "isSmile", "setSmile");
+// Текст підказки
+property = new PropertyDescriptor("hintText", JHintTextField.class,
+                                  "getHintText", "setHintText");
 property.setBound(true);
 property.setPreferred(true);
 properties.add(property);
 
-// Ширина усмішки
-property = new PropertyDescriptor("smileWidth", JHintTextField.class,
-                                  "getSmileWidth", "setSmileWidth");
+// Колір тексту підказки
+property = new PropertyDescriptor("hintColor", JHintTextField.class,
+                                  "getHintColor", "setHintColor");
 property.setBound(true);
 property.setPreferred(true);
-properties.add(property);
-
-// Товщина ліній
-property = new PropertyDescriptor("lineWidth", JHintTextField.class,
-                                  "getLineWidth", "setLineWidth");
-property.setBound(true);
-property.setPreferred(true);
-addToValuesList("THIN",   LINE_WIDTH_THIN, "JBiba.LINE_WIDTH_THIN");
-addToValuesList("NORMAL", LINE_WIDTH_NORM, "JBiba.LINE_WIDTH_NORM");
-addToValuesList("WIDE",   LINE_WIDTH_WIDE, "JBiba.LINE_WIDTH_WIDE");
-property.setValue("enumerationValues", getValuesList());
 properties.add(property);
 
 }
@@ -116,15 +98,11 @@ ArrayList <EventSetDescriptor> eventSets = new ArrayList<>();
 try {
 
 // ............................................................................
-// Отримання прослуховувачів суперкласу та задання їх непріоритетності
+// Додавання прослуховувачів суперкласу до загального списку прослуховувачів
 
 EventSetDescriptor[] descriptors = Introspector.getBeanInfo(parentClass)
                                                .getEventSetDescriptors();
-
-for (var descriptor : descriptors) {
-    descriptor.setPreferred(false);
-    eventSets.add(descriptor);
-}
+eventSets.addAll(Arrays.asList(descriptors));
 
 // ............................................................................
 // Додавання нових прослуховувачів та задання їх пріоритетності
@@ -140,9 +118,9 @@ for (var descriptor : descriptors) {
 
 // JHintTextFieldListener
 
-methods = new String[] { "smileTypeChange",
-                         "smileWidthChange",
-                         "lineWidthChange" };
+methods = new String[] { "textChange",
+                         "hintTextChange",
+                         "hintColorChange" };
 eventSet = new EventSetDescriptor(JHintTextField.class,
                                   "JHintTextFieldListener",
                                   JHintTextFieldListener.class, methods,
@@ -189,26 +167,6 @@ private Image loadIcon (int size) {
         { return ImageIO.read(stream); }
     catch (IOException _)
         { return null; } }
-
-// ============================================================================
-/// Додавання елемента до списку перелічених значень
-/// @param name назва елемента, яка відображатиметься в IDE
-/// @param value значення елемента, IDE використовує його для порівняння
-/// @param code Java-код, який IDE буде вставляти у setter-метод
-
-private void addToValuesList (String name, Object value, String code)
-    { valuesList.add(name);
-      valuesList.add(value);
-      valuesList.add(code); }
-
-// ============================================================================
-/// Повернення масиву перелічених значень та очищення списку
-/// @return масив перелічених значень
-
-private Object[] getValuesList()
-    { Object[] result = valuesList.toArray();
-      valuesList.clear();
-      return result; }
 
 // Кінець класу JHintTextFieldBeanInfo ========================================
 

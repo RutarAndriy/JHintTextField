@@ -3,130 +3,127 @@ package com.rutar.jhinttextfield;
 import java.awt.*;
 import java.util.*;
 import javax.swing.*;
-
-import static java.awt.RenderingHints.*;
+import java.awt.event.*;
+import javax.swing.event.*;
 
 // ............................................................................
-/// Реалізація користувацького JavaBeans-компонента
+/// Реалізація текстового поля введення з підказкою
 /// @author Rutar_Andriy
 /// 07.04.2026
 
-public class JHintTextField extends JPanel {
+public class JHintTextField extends JTextField {
 
-private int lineWidth = LINE_WIDTH_NORM;                       // товщина ліній
-private int mouthWidth = 120;                     // ширина усмішки, в градусах
-private boolean smile = true;                                // усмішка/гримаса
+private String text = "";                                // текст поля введення
+private String hintText = "Заповніть поле";                   // текст підказки
+private Color hintColor = new Color(153, 153, 153);    // колір тексту підказки
 
-private Graphics2D g2;                                        // об'єкт графіки
-private int w, h, cx, cy, cw, ch, sw, sh, lw;               // допоміжні змінні
-private BasicStroke basicStroke = new BasicStroke(lineWidth);   // базова кисть
+private Graphics2D g2;                             // Об'єкт розширеної графіки
+private Insets insets;                                   // Відступи компонента
+private int textX, textY;                            // Позиція тексту підказки
 
 // Масив прослуховувачів подій компонента
 private static ArrayList <JHintTextFieldListener> listeners = null;
 
-private final int PADDING = 2;                   // відступ по краях компонента
-private final int EYES_SIZE = 4;                     // мінімальний розмір очей
+// ============================================================================
+/// Конструктор за замовчуванням
 
-// ............................................................................
-// Список доступних компоненту констант
-
-/// Ширина ліній - тонка
-public static final int LINE_WIDTH_THIN =  1;
-/// Ширина ліній - нормальна
-public static final int LINE_WIDTH_NORM =  5;
-/// Ширина ліній - широка
-public static final int LINE_WIDTH_WIDE = 18;
+public JHintTextField()
+    { addFocusListener(focusListener);
+      getDocument().addDocumentListener(docListener); }
 
 // ============================================================================
 /// Промальовування компонента
 
 @Override
-public void paintComponent (Graphics g) {
+protected void paintComponent (Graphics g) {
 
-super.paintComponent(g);
+    super.paintComponent(g);
 
-g2 = (Graphics2D)g;
-g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+    if (hintText.isBlank() ||
+       !getText().isEmpty() || isFocusOwner()) { return; }
 
-// Розрахунок значень допоміжних змінних
-w = getWidth()  - 1;
-h = getHeight() - 1;
-cx = PADDING + lineWidth/2;
-cy = PADDING + lineWidth/2;
-cw = w - PADDING * 2 - lineWidth;
-ch = h - PADDING * 2 - lineWidth;
-lw = (lineWidth - 1) / 2;
-sw = cw / 2;
-sh = ch / 2;
+    g2 = (Graphics2D) g.create();
+    setSystemFontParams(g2);
+    insets = getInsets();
 
-g2.setColor(getForeground());
-g2.setStroke(basicStroke);
+    var hintWidth = g2.getFontMetrics().stringWidth(hintText);
 
-// Промальовування загального контуру
-g2.drawArc(cx, cy, cw, ch, 0, 360);
+    switch (getHorizontalAlignment())
+        { case LEFT  -> textX = insets.left;
+          case RIGHT -> textX = getWidth() - hintWidth - insets.right;
+          default    -> textX = (getWidth() - hintWidth)/2 - 1; }
 
-// Промальовування роту
-g2.drawArc(w/2 - sw/2, h/2 + (smile ? -sh/2 : sh/3), sw, sh,
-                             (smile ? 270 : 90) - mouthWidth/2, mouthWidth);
+    textY = getBaseline(getWidth(), getHeight());
 
-// Промальовування очей
-for (int z = 0; z < 2; z++)
-    { g2.fillArc(w/2 + cw/8 * (z == 0 ? 1 : -1) - EYES_SIZE/2 - lw,
-                 h/2 - ch/4 - EYES_SIZE - lw, EYES_SIZE + lw*2,
-                                              EYES_SIZE + lw*2, 0, 360); } }
+    g2.setFont(getFont());
+    g2.setColor(hintColor);
+    g2.drawString(hintText, textX, textY);
+    g2.dispose();
+
+}
 
 // ============================================================================
-/// Повернення типу усмішки
-/// @return якщо true - усмішка, false - гримаса
+/// Задання системних параметрів шрифтів для тексту підказки
 
-public boolean isSmile() { return smile; }
+private void setSystemFontParams (Graphics2D g)
+    { var deshtopHints = Toolkit.getDefaultToolkit()
+                                .getDesktopProperty("awt.font.desktophints");
+      if (deshtopHints instanceof Map<?, ?> hints)
+          { g.addRenderingHints(hints); } }
 
 // ============================================================================
-/// Задання типу усмішки
-/// @param smile новий тип усмішки
+/// Повернення тексту поля введення
+/// @return текст поля введення
 
-public void setSmile (boolean smile)
-    { boolean oldValue = this.smile;
-      this.smile = smile;
+@Override
+public String getText() { return text; }
+
+// ============================================================================
+/// Задання тексту поля введення
+/// @param newText новий текст поля введення
+
+@Override
+public void setText (String newText)
+    { if (newText == null) { newText = ""; }
+      var oldValue = this.text;
+      this.text = newText;  
+      super.setText(newText);
       repaint();
-      fireAll("smileType", oldValue, smile); }
+      fireAll("text", oldValue, newText); }
 
 // ============================================================================
-/// Повернення ширини усмішки
-/// @return ширина усмішки (в градусах)
+/// Повернення тексту підказки
+/// @return текст підказки
 
-public int getSmileWidth() { return mouthWidth; }
-
-// ============================================================================
-/// Задання ширини усмішки
-/// @param mouthWidth нова ширина усмішки (в градусах)
-
-public void setSmileWidth (int mouthWidth)
-    { if (mouthWidth > 175) { mouthWidth = 175; }
-      if (mouthWidth <   0) { mouthWidth = 0;   }
-      int oldValue = this.mouthWidth;
-      this.mouthWidth = mouthWidth;
-      repaint(); 
-      fireAll("smileWidth", oldValue, mouthWidth); }
+public String getHintText() { return hintText;  }
 
 // ============================================================================
-/// Повернення товщини ліній компонента
-/// @return товщина ліній компонента
+/// Задання тексту підказки
+/// @param hintText новий текст підказки
 
-public int getLineWidth() { return lineWidth; }
+public void setHintText (String hintText)
+    { if (hintText == null) { hintText = ""; }
+      var oldValue = this.hintText;
+      this.hintText = hintText;
+      repaint();
+      fireAll("hintText", oldValue, hintText); }
 
 // ============================================================================
-/// Задання товщини ліній компонента
-/// @param lineWidth нова товщина ліній компонента
+/// Повернення кольору тексту підказки
+/// @return колір тексту підказки
 
-public void setLineWidth (int lineWidth)
-    { if (lineWidth > 18) { lineWidth = 18; }
-      if (lineWidth <  1) { lineWidth = 1;  }
-      int oldValue = this.lineWidth;
-      this.lineWidth = lineWidth;
-      basicStroke = new BasicStroke(lineWidth);
-      repaint(); 
-      fireAll("lineWidth", oldValue, lineWidth); }
+public Color getHintColor() { return hintColor; }
+
+// ============================================================================
+/// Задання кольору тексту підказки
+/// @param hintColor новий колір тексту підказки
+
+public void setHintColor (Color hintColor)
+    { if (hintColor == null) { hintColor = new Color(153, 153, 153); }
+      var oldValue = this.hintColor;
+      this.hintColor = hintColor;
+      repaint();
+      fireAll("hintColor", oldValue, hintColor); }
 
 // ============================================================================
 /// Додавання нового прослуховувача подій компонента
@@ -152,31 +149,56 @@ private ArrayList <JHintTextFieldListener> getListeners()
 // ============================================================================
 /// Інформування прослуховувачів про зміну властивостей компонента
 
-private void fireAll (String name, Object oldValue, Object newValue) {
-    
-    fireEvent          (name, oldValue, newValue);
-    firePropertyChange (name, oldValue, newValue);
-    
-}
+private void fireAll (String name, Object oldValue, Object newValue)
+    { if (oldValue.equals(newValue)) { return; }
+      fireEvent          (name, oldValue, newValue);
+      firePropertyChange (name, oldValue, newValue); }
 
 // ============================================================================
 /// Інформування прослуховувачів про зміну конкретної властивості компонента
 
 private void fireEvent (String name, Object oldValue, Object newValue) {
 
-JHintTextFieldEvent event = new JHintTextFieldEvent(this, oldValue, newValue);
+var event = new JHintTextFieldEvent(this, oldValue, newValue);
 
-for (JHintTextFieldListener listener : getListeners())
+for (var listener : getListeners())
     { switch (name)
-          { case "smileType"  -> listener.smileTypeChange(event);
-            case "smileWidth" -> listener.smileWidthChange(event);
-            case "lineWidth"  -> listener.lineWidthChange(event); } } }
+          { case "text"      -> listener.textChange(event);
+            case "hintText"  -> listener.hintTextChange(event);
+            case "hintColor" -> listener.hintColorChange(event); } } }
 
 // ============================================================================
-/// Перевизначення оптимального розміру компонента
+/// Прослуховувач фокусу компонента
 
-@Override
-public Dimension getPreferredSize() { return new Dimension(100, 100); }
+private final FocusListener focusListener = new FocusListener() {
+
+    @Override   // Одержання фокусу
+    public void focusGained (FocusEvent e) { repaint(); }
+
+    @Override   // Втрата фокусу
+    public void focusLost (FocusEvent e) { repaint(); }
+};
+
+// ============================================================================
+/// Прослуховувач вмісту поля введення
+
+private final DocumentListener docListener = new DocumentListener() {
+
+    @Override   // Додавання даних
+    public void insertUpdate (DocumentEvent e)
+        { var oldValue = text;
+          text = JHintTextField.super.getText();
+          fireAll("text", oldValue, text); }
+
+    @Override   // Видалення даних
+    public void removeUpdate (DocumentEvent e)
+        { var oldValue = text;
+          text = JHintTextField.super.getText();
+          fireAll("text", oldValue, text); }
+
+    @Override   // Оновлення форматування (не використовується)
+    public void changedUpdate (DocumentEvent e) {}
+};
 
 // Кінець класу JHintTextField ================================================
 

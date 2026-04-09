@@ -10,13 +10,13 @@ public class JHintTextFieldAdapter implements JHintTextFieldListener {
 // ============================================================================
 
 @Override
-public void smileTypeChange (JHintTextFieldEvent evt) {}
+public void textChange (JHintTextFieldEvent evt) {}
 
 @Override
-public void smileWidthChange (JHintTextFieldEvent evt) {}
+public void hintTextChange (JHintTextFieldEvent evt) {}
 
 @Override
-public void lineWidthChange (JHintTextFieldEvent evt) {}
+public void hintColorChange (JHintTextFieldEvent evt) {}
 
 // Кінець класу JHintTextFieldAdapter =========================================
 

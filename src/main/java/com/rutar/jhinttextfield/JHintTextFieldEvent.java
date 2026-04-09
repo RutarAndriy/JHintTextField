@@ -13,7 +13,7 @@ private final Object oldValue;                    // старе значення
 private final Object newValue;                     // нове значення властивості
 
 /// Ідентифікатор події користувацького компонента
-public static int JHINTTEXTFIELD_EVENT = AWTEvent.RESERVED_ID_MAX + 333;
+public static int JHINTTEXTFIELD_EVENT = AWTEvent.RESERVED_ID_MAX + 332;
 
 // ============================================================================
 /// Конструктор за замовчуванням

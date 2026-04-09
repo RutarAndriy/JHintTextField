@@ -10,22 +10,22 @@ import java.util.*;
 public interface JHintTextFieldListener extends EventListener {
 
 // ============================================================================
-/// Зміна типу усмішки
+/// Зміна тексту в середині поля введення
 /// @param evt подія типу JHintTextFieldEvent
 
-public void smileTypeChange (JHintTextFieldEvent evt);
+public void textChange (JHintTextFieldEvent evt);
 
 // ============================================================================
-/// Зміна ширини усмішки (в градусах)
+/// Зміна тексту підказки
 /// @param evt подія типу JHintTextFieldEvent
 
-public void smileWidthChange (JHintTextFieldEvent evt);
+public void hintTextChange (JHintTextFieldEvent evt);
 
 // ============================================================================
-/// Зміна товщини ліній
+/// Зміна кольору тексту підказки
 /// @param evt подія типу JHintTextFieldEvent
 
-public void lineWidthChange (JHintTextFieldEvent evt);
+public void hintColorChange (JHintTextFieldEvent evt);
 
 // Кінець класу JHintTextFieldBeanInfo ========================================
 

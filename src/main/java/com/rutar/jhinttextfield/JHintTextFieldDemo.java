@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.imageio.*;
 import java.awt.event.*;
 import java.awt.image.*;
-import javax.swing.event.*;
 
 // ............................................................................
 /// Демонстація основних можливостей JavaBeans-компонента
@@ -21,7 +20,8 @@ public class JHintTextFieldDemo extends JFrame {
 
 public JHintTextFieldDemo()
     { initComponents();
-      initAppIcons(); }
+      initAppIcons();
+      btn_reset.requestFocus(); }
 
 // ============================================================================
 /// Головний метод програми
@@ -38,26 +38,29 @@ public static void main (String args[]) {
 }
 
 // ============================================================================
-/// Оновлення текстових підказок для повзунків
-
-private void updateToolTips()
-    { sld_smileWidth.setToolTipText("Ширина усмішки: %d°"
-                    .formatted(sld_smileWidth.getValue()));
-      sld_lineWidth.setToolTipText("Товщина ліній: %d"
-                   .formatted(sld_lineWidth.getValue())); }
-
-// ============================================================================
 /// Відновлення стандартних налаштувань компонента
 
 private void resetSettings()
-    { cmp_face.setSmile(true);
-      cmp_face.setSmileWidth(120);
-      cmp_face.setLineWidth(JHintTextField.LINE_WIDTH_NORM);
-      cmp_face.setBackground(null);
-      cmp_face.setForeground(null);
-      sld_smileWidth.setValue(cmp_face.getSmileWidth());
-      sld_lineWidth.setValue(cmp_face.getLineWidth());
-      updateToolTips(); }
+    { var tmp = new JHintTextField();
+      hfld_text.setText(null);
+      hfld_text.setHintText(tmp.getHintText());
+      hfld_text.setHintColor(tmp.getHintColor()); }
+
+// ============================================================================
+/// Генерування випадкового кольору
+
+private Color getRandomColor()
+    { return new Color((int)(Math.random()*255),
+                       (int)(Math.random()*255),
+                       (int)(Math.random()*255)); }
+
+// ============================================================================
+/// Повернення нового тексту підказки
+
+private String getNewHintText()
+    { var tmp = hfld_text.getText();
+      if (tmp.isBlank()) { tmp = "Новий текст підказки"; }
+      return tmp; }
 
 // ============================================================================
 /// Встановлення іконок для головного вікна
@@ -80,14 +83,6 @@ private void initAppIcons() {
     catch (IOException _) { } }
 
 // ============================================================================
-/// Генерування випадкового кольору
-
-private Color getRandomColor()
-    { return new Color((int)(Math.random()*255),
-                       (int)(Math.random()*255),
-                       (int)(Math.random()*255)); }
-
-// ============================================================================
 /// Цей метод викликається з конструктора для ініціалізації форми.
 /// УВАГА: НЕ змінюйте цей код. Вміст цього методу завжди 
 /// перезапишеться редактором форм
@@ -96,61 +91,35 @@ private Color getRandomColor()
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmp_face = new JHintTextField();
-        lbl_lineWidth = new JLabel();
-        sld_lineWidth = new JSlider();
-        lbl_smileWidth = new JLabel();
-        sld_smileWidth = new JSlider();
-        btn_smileType = new JButton();
-        btn_foreground = new JButton();
-        btn_background = new JButton();
+        hfld_text = new JHintTextField();
+        btn_hintColor = new JButton();
+        btn_hintText = new JButton();
         btn_reset = new JButton();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("JHintTextField Demo");
         setResizable(false);
 
-        cmp_face.addJHintTextFieldListener(new JHintTextFieldListener() {
-            public void smileTypeChange(JHintTextFieldEvent evt) {
-                onSmileTypeChange(evt);
+        hfld_text.setHorizontalAlignment(JTextField.CENTER);
+        hfld_text.addJHintTextFieldListener(new JHintTextFieldListener() {
+            public void textChange(JHintTextFieldEvent evt) {
+                onTextChange(evt);
             }
-            public void smileWidthChange(JHintTextFieldEvent evt) {
-                onSmileWidthChange(evt);
+            public void hintTextChange(JHintTextFieldEvent evt) {
+                onHintTextChange(evt);
             }
-            public void lineWidthChange(JHintTextFieldEvent evt) {
-                onLineWidthChange(evt);
+            public void hintColorChange(JHintTextFieldEvent evt) {
+                onHintColorChange(evt);
             }
         });
 
-        lbl_lineWidth.setHorizontalAlignment(SwingConstants.CENTER);
-        lbl_lineWidth.setText("Товщина ліній");
-        lbl_lineWidth.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btn_hintColor.setText("Змінити колір підказки");
+        btn_hintColor.setActionCommand("hintColor");
+        btn_hintColor.addActionListener(this::onButtonClick);
 
-        sld_lineWidth.setMaximum(18);
-        sld_lineWidth.setMinimum(1);
-        sld_lineWidth.setValue(5);
-        sld_lineWidth.setAlignmentX(0.0F);
-        sld_lineWidth.addChangeListener(this::onStateChange);
-
-        lbl_smileWidth.setHorizontalAlignment(SwingConstants.CENTER);
-        lbl_smileWidth.setText("Ширина усмішки");
-
-        sld_smileWidth.setMaximum(175);
-        sld_smileWidth.setValue(120);
-        sld_smileWidth.setAlignmentX(0.0F);
-        sld_smileWidth.addChangeListener(this::onStateChange);
-
-        btn_smileType.setText("Усмішка / Гримаса");
-        btn_smileType.setActionCommand("smile");
-        btn_smileType.addActionListener(this::onButtonClick);
-
-        btn_foreground.setText("Змінити колір ліній");
-        btn_foreground.setActionCommand("fColor");
-        btn_foreground.addActionListener(this::onButtonClick);
-
-        btn_background.setText("Змінити колір фону");
-        btn_background.setActionCommand("bColor");
-        btn_background.addActionListener(this::onButtonClick);
+        btn_hintText.setText("Змінити текст підказки");
+        btn_hintText.setActionCommand("hintText");
+        btn_hintText.addActionListener(this::onButtonClick);
 
         btn_reset.setText("Відновити стандартні налаштування");
         btn_reset.setActionCommand("reset");
@@ -161,44 +130,25 @@ private Color getRandomColor()
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addComponent(cmp_face, GroupLayout.PREFERRED_SIZE, 209, GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_lineWidth, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sld_lineWidth, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_background, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_foreground, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_smileType, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sld_smileWidth, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_reset, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                    .addComponent(lbl_smileWidth, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_reset, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_hintText, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_hintColor, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(hfld_text, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl_lineWidth)
-                        .addGap(5, 5, 5)
-                        .addComponent(sld_lineWidth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(lbl_smileWidth)
-                        .addGap(5, 5, 5)
-                        .addComponent(sld_smileWidth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
-                        .addComponent(btn_smileType)
-                        .addGap(5, 5, 5)
-                        .addComponent(btn_foreground)
-                        .addGap(5, 5, 5)
-                        .addComponent(btn_background)
-                        .addGap(5, 5, 5)
-                        .addComponent(btn_reset))
-                    .addComponent(cmp_face, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(hfld_text, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(btn_hintColor)
+                .addGap(5, 5, 5)
+                .addComponent(btn_hintText)
+                .addGap(5, 5, 5)
+                .addComponent(btn_reset)
                 .addGap(5, 5, 5))
         );
-
-        updateToolTips();
 
         pack();
         setLocationRelativeTo(null);
@@ -206,52 +156,33 @@ private Color getRandomColor()
 
     private void onButtonClick(ActionEvent evt) {//GEN-FIRST:event_onButtonClick
         switch (evt.getActionCommand()) {
-            // Усмішка/гримаса
-            case "smile"  -> cmp_face.setSmile(!cmp_face.isSmile());
-            // Колір ліній
-            case "fColor" -> cmp_face.setForeground(getRandomColor());
-            // Колір фону
-            case "bColor" -> cmp_face.setBackground(getRandomColor());
+            // Зміна кольору підказки
+            case "hintColor" -> hfld_text.setHintColor(getRandomColor());
+            // Зміна тексту підказки
+            case "hintText"  -> { hfld_text.setHintText(getNewHintText());
+                                  hfld_text.setText(null); }
             // Відновлення стандартних налаштувань
-            case "reset"  -> resetSettings();
+            case "reset"     -> resetSettings();
         }
     }//GEN-LAST:event_onButtonClick
 
-    private void onStateChange(ChangeEvent evt) {//GEN-FIRST:event_onStateChange
-        // Оновлення властивостей компонента
-        if (evt.getSource() == sld_lineWidth)
-            { cmp_face.setLineWidth(sld_lineWidth.getValue()); }
-        else
-            { cmp_face.setSmileWidth(sld_smileWidth.getValue()); }
-        // Оновлення текстових підказок
-        updateToolTips();
-    }//GEN-LAST:event_onStateChange
+    private void onTextChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onTextChange
+        IO.println(evt);
+    }//GEN-LAST:event_onTextChange
 
-    private void onSmileTypeChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onSmileChange
-        IO.println("Тип усмішки змінився з %s на %s"
-          .formatted(evt.getOldValue(), evt.getNewValue()));
-    }//GEN-LAST:event_onSmileChange
+    private void onHintColorChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onHintColorChange
+        IO.println(evt);
+    }//GEN-LAST:event_onHintColorChange
 
-    private void onSmileWidthChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onSmileWidthChange
-        IO.println("Ширина усмішки змінилася з %s на %s"
-          .formatted(evt.getOldValue(), evt.getNewValue()));
-    }//GEN-LAST:event_onSmileWidthChange
-
-    private void onLineWidthChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onLineWidthChange
-        IO.println("Товщина ліній змінилася з %s на %s"
-          .formatted(evt.getOldValue(), evt.getNewValue()));
-    }//GEN-LAST:event_onLineWidthChange
+    private void onHintTextChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onHintTextChange
+        IO.println(evt);
+    }//GEN-LAST:event_onHintTextChange
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private JButton btn_background;
-    private JButton btn_foreground;
-    private JButton btn_reset;
-    private JButton btn_smileType;
-    private JHintTextField cmp_face;
-    private JLabel lbl_lineWidth;
-    private JLabel lbl_smileWidth;
-    private JSlider sld_lineWidth;
-    private JSlider sld_smileWidth;
+    JButton btn_hintColor;
+    JButton btn_hintText;
+    JButton btn_reset;
+    JHintTextField hfld_text;
     // End of variables declaration//GEN-END:variables
 
 // Кінець класу JHintTextFieldBeanInfo ========================================

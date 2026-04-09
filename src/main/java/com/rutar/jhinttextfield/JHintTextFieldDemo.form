@@ -18,26 +18,20 @@
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="3"/>
-    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="0"/>
   </AuxValues>
 
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-              <Component id="cmp_face" min="-2" pref="209" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lbl_lineWidth" max="32767" attributes="0"/>
-                  <Component id="sld_lineWidth" alignment="1" max="32767" attributes="0"/>
-                  <Component id="btn_background" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btn_foreground" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btn_smileType" max="32767" attributes="0"/>
-                  <Component id="sld_smileWidth" alignment="0" max="32767" attributes="0"/>
-                  <Component id="btn_reset" alignment="0" pref="261" max="32767" attributes="0"/>
-                  <Component id="lbl_smileWidth" alignment="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="btn_reset" max="32767" attributes="0"/>
+                  <Component id="btn_hintText" alignment="0" max="32767" attributes="0"/>
+                  <Component id="btn_hintColor" alignment="0" max="32767" attributes="0"/>
+                  <Component id="hfld_text" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
           </Group>
@@ -47,104 +41,55 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="lbl_lineWidth" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="sld_lineWidth" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="lbl_smileWidth" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="sld_smileWidth" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="btn_smileType" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="btn_foreground" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="btn_background" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                      <Component id="btn_reset" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="cmp_face" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="5" pref="5" max="-2" attributes="0"/>
+              <Component id="hfld_text" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              <Component id="btn_hintColor" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              <Component id="btn_hintText" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              <Component id="btn_reset" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="com.rutar.jhinttextfield.JHintTextField" name="cmp_face">
+    <Component class="com.rutar.jhinttextfield.JHintTextField" name="hfld_text">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
       <Events>
-        <EventHandler event="smileTypeChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onSmileTypeChange"/>
-        <EventHandler event="smileWidthChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onSmileWidthChange"/>
-        <EventHandler event="lineWidthChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onLineWidthChange"/>
+        <EventHandler event="textChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onTextChange"/>
+        <EventHandler event="hintTextChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onHintTextChange"/>
+        <EventHandler event="hintColorChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onHintColorChange"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_allCodePost" type="java.lang.String" value="updateToolTips();"/>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="lbl_lineWidth">
+    <Component class="javax.swing.JButton" name="btn_hintColor">
       <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="&#x422;&#x43e;&#x432;&#x449;&#x438;&#x43d;&#x430; &#x43b;&#x456;&#x43d;&#x456;&#x439;"/>
-        <Property name="alignmentX" type="float" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Component.LEFT_ALIGNMENT" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSlider" name="sld_lineWidth">
-      <Properties>
-        <Property name="maximum" type="int" value="18"/>
-        <Property name="minimum" type="int" value="1"/>
-        <Property name="value" type="int" value="5"/>
-        <Property name="alignmentX" type="float" value="0.0"/>
-      </Properties>
-      <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="onStateChange"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lbl_smileWidth">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="&#x428;&#x438;&#x440;&#x438;&#x43d;&#x430; &#x443;&#x441;&#x43c;&#x456;&#x448;&#x43a;&#x438;"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSlider" name="sld_smileWidth">
-      <Properties>
-        <Property name="maximum" type="int" value="175"/>
-        <Property name="value" type="int" value="120"/>
-        <Property name="alignmentX" type="float" value="0.0"/>
-      </Properties>
-      <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="onStateChange"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btn_smileType">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#x423;&#x441;&#x43c;&#x456;&#x448;&#x43a;&#x430; / &#x413;&#x440;&#x438;&#x43c;&#x430;&#x441;&#x430;"/>
-        <Property name="actionCommand" type="java.lang.String" value="smile"/>
+        <Property name="text" type="java.lang.String" value="&#x417;&#x43c;&#x456;&#x43d;&#x438;&#x442;&#x438; &#x43a;&#x43e;&#x43b;&#x456;&#x440; &#x43f;&#x456;&#x434;&#x43a;&#x430;&#x437;&#x43a;&#x438;"/>
+        <Property name="actionCommand" type="java.lang.String" value="hintColor"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onButtonClick"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
+      </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="btn_foreground">
+    <Component class="javax.swing.JButton" name="btn_hintText">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&#x417;&#x43c;&#x456;&#x43d;&#x438;&#x442;&#x438; &#x43a;&#x43e;&#x43b;&#x456;&#x440; &#x43b;&#x456;&#x43d;&#x456;&#x439;"/>
-        <Property name="actionCommand" type="java.lang.String" value="fColor"/>
+        <Property name="text" type="java.lang.String" value="&#x417;&#x43c;&#x456;&#x43d;&#x438;&#x442;&#x438; &#x442;&#x435;&#x43a;&#x441;&#x442; &#x43f;&#x456;&#x434;&#x43a;&#x430;&#x437;&#x43a;&#x438;"/>
+        <Property name="actionCommand" type="java.lang.String" value="hintText"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onButtonClick"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btn_background">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#x417;&#x43c;&#x456;&#x43d;&#x438;&#x442;&#x438; &#x43a;&#x43e;&#x43b;&#x456;&#x440; &#x444;&#x43e;&#x43d;&#x443;"/>
-        <Property name="actionCommand" type="java.lang.String" value="bColor"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onButtonClick"/>
-      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btn_reset">
       <Properties>
@@ -154,6 +99,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onButtonClick"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
