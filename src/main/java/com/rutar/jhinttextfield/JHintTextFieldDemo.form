@@ -59,9 +59,9 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
       </Properties>
       <Events>
-        <EventHandler event="textChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onTextChange"/>
-        <EventHandler event="hintTextChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onHintTextChange"/>
-        <EventHandler event="hintColorChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onHintColorChange"/>
+        <EventHandler event="textChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onParamsChange"/>
+        <EventHandler event="hintTextChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onParamsChange"/>
+        <EventHandler event="hintColorChange" listener="com.rutar.jhinttextfield.JHintTextFieldListener" parameters="com.rutar.jhinttextfield.JHintTextFieldEvent" handler="onParamsChange"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="false"/>

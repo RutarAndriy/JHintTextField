@@ -29,21 +29,21 @@ private static ArrayList <JHintTextFieldListener> listeners = null;
 /// Допоміжний конструктор
 
 public JHintTextField()
-    { this(null, null, 0); }
+  { this(null, null, 0); }
 
 // ============================================================================
 /// Допоміжний конструктор
 /// @param text початковий текст
 
 public JHintTextField (String text)
-    { this(null, text, 0); }
+  { this(null, text, 0); }
 
 // ============================================================================
 /// Допоміжний конструктор
 /// @param columns кількість стовбців
 
 public JHintTextField (int columns)
-    { this(null, null, columns); }
+  { this(null, null, columns); }
 
 // ============================================================================
 /// Допоміжний конструктор
@@ -51,7 +51,7 @@ public JHintTextField (int columns)
 /// @param columns кількість стовбців
 
 public JHintTextField (String text, int columns)
-    { this(null, text, columns); }
+  { this(null, text, columns); }
 
 // ============================================================================
 /// Головний конструктор
@@ -60,9 +60,9 @@ public JHintTextField (String text, int columns)
 /// @param columns кількість стовбців
 
 public JHintTextField (Document doc, String text, int columns)
-    { super(doc, text, columns);
-      addFocusListener(focusListener);
-      getDocument().addDocumentListener(docListener); }
+  { super(doc, text, columns);
+    addFocusListener(focusListener);
+    getDocument().addDocumentListener(docListener); }
 
 // ============================================================================
 /// Промальовування компонента
@@ -92,17 +92,16 @@ protected void paintComponent (Graphics g) {
     g2.setColor(hintColor);
     g2.drawString(hintText, textX, textY);
     g2.dispose();
-
 }
 
 // ============================================================================
 /// Задання системних параметрів шрифтів для тексту підказки
 
 private void setSystemFontParams (Graphics2D g)
-    { var deshtopHints = Toolkit.getDefaultToolkit()
-                                .getDesktopProperty("awt.font.desktophints");
-      if (deshtopHints instanceof Map<?, ?> hints)
-          { g.addRenderingHints(hints); } }
+  { var deshtopHints = Toolkit.getDefaultToolkit()
+                              .getDesktopProperty("awt.font.desktophints");
+    if (deshtopHints instanceof Map<?, ?> hints)
+        { g.addRenderingHints(hints); } }
 
 // ============================================================================
 /// Повернення тексту поля введення
@@ -117,12 +116,12 @@ public String getText() { return text; }
 
 @Override
 public void setText (String newText)
-    { if (newText == null) { newText = ""; }
-      var oldValue = this.text;
-      this.text = newText;  
-      super.setText(newText);
-      repaint();
-      fireAll("text", oldValue, newText); }
+  { if (newText == null) { newText = ""; }
+    var oldValue = this.text;
+    this.text = newText;  
+    super.setText(newText);
+    repaint();
+    fireAll("text", oldValue, newText); }
 
 // ============================================================================
 /// Повернення тексту підказки
@@ -135,11 +134,11 @@ public String getHintText() { return hintText;  }
 /// @param hintText новий текст підказки
 
 public void setHintText (String hintText)
-    { if (hintText == null) { hintText = ""; }
-      var oldValue = this.hintText;
-      this.hintText = hintText;
-      repaint();
-      fireAll("hintText", oldValue, hintText); }
+  { if (hintText == null) { hintText = ""; }
+    var oldValue = this.hintText;
+    this.hintText = hintText;
+    repaint();
+    fireAll("hintText", oldValue, hintText); }
 
 // ============================================================================
 /// Повернення кольору тексту підказки
@@ -152,40 +151,40 @@ public Color getHintColor() { return hintColor; }
 /// @param hintColor новий колір тексту підказки
 
 public void setHintColor (Color hintColor)
-    { if (hintColor == null) { hintColor = new Color(153, 153, 153); }
-      var oldValue = this.hintColor;
-      this.hintColor = hintColor;
-      repaint();
-      fireAll("hintColor", oldValue, hintColor); }
+  { if (hintColor == null) { hintColor = new Color(153, 153, 153); }
+    var oldValue = this.hintColor;
+    this.hintColor = hintColor;
+    repaint();
+    fireAll("hintColor", oldValue, hintColor); }
 
 // ============================================================================
 /// Додавання нового прослуховувача подій компонента
 /// @param listener новий прослуховувач подій для додавання
 
 public void addJHintTextFieldListener (JHintTextFieldListener listener)
-    { getListeners().add(listener); }
+  { getListeners().add(listener); }
 
 // ============================================================================
 /// Видалення існуючого прослуховувача подій компонента
 /// @param listener існуючий прослуховувач подій для видалення
 
 public void removeJHintTextFieldListener (JHintTextFieldListener listener)
-    { getListeners().remove(listener); }
+  { getListeners().remove(listener); }
 
 // ============================================================================
 /// Повернення списку активних прослуховувачів
 
 private ArrayList <JHintTextFieldListener> getListeners()
-    { if (listeners == null) { listeners = new ArrayList<>(); }
-      return listeners; }
+  { if (listeners == null) { listeners = new ArrayList<>(); }
+    return listeners; }
 
 // ============================================================================
 /// Інформування прослуховувачів про зміну властивостей компонента
 
 private void fireAll (String name, Object oldValue, Object newValue)
-    { if (oldValue.equals(newValue)) { return; }
-      fireEvent          (name, oldValue, newValue);
-      firePropertyChange (name, oldValue, newValue); }
+  { if (oldValue.equals(newValue)) { return; }
+    fireEvent          (name, oldValue, newValue);
+    firePropertyChange (name, oldValue, newValue); }
 
 // ============================================================================
 /// Інформування прослуховувачів про зміну конкретної властивості компонента
@@ -194,11 +193,11 @@ private void fireEvent (String name, Object oldValue, Object newValue) {
 
 var event = new JHintTextFieldEvent(this, oldValue, newValue);
 
-for (var listener : getListeners())
+for (var lst : getListeners())
     { switch (name)
-          { case "text"      -> listener.textChange(event);
-            case "hintText"  -> listener.hintTextChange(event);
-            case "hintColor" -> listener.hintColorChange(event); } } }
+          { case "text"      -> lst.textChange(event);
+            case "hintText"  -> lst.hintTextChange(event);
+            case "hintColor" -> lst.hintColorChange(event); } } }
 
 // ============================================================================
 /// Прослуховувач фокусу компонента

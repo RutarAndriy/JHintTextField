@@ -27,6 +27,6 @@ public void hintTextChange (JHintTextFieldEvent evt);
 
 public void hintColorChange (JHintTextFieldEvent evt);
 
-// Кінець класу JHintTextFieldBeanInfo ========================================
+// Кінець класу JHintTextFieldEvent ===========================================
 
 }
