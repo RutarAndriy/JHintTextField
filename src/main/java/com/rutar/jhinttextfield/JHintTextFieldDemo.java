@@ -27,15 +27,9 @@ public JHintTextFieldDemo()
 /// Головний метод програми
 /// @param args масив параметрів запуску програми
 
-public static void main (String args[]) {
-
-    // Правила оформлення проектів описані тут:
-    // https://github.com/RutarAndriy/My_Coding_Rules
-
-    EventQueue.invokeLater(() -> {
-        new JHintTextFieldDemo().setVisible(true);
-    });
-}
+public static void main (String args[])
+  { SwingUtilities.invokeLater(() ->
+      { new JHintTextFieldDemo().setVisible(true); }); }
 
 // ============================================================================
 /// Відновлення стандартних налаштувань компонента
@@ -80,7 +74,8 @@ private void initAppIcons() {
     
     setIconImages(appIcons); }
     
-    catch (IOException _) { } }
+    catch (IOException _) { }
+}
 
 // ============================================================================
 /// Цей метод викликається з конструктора для ініціалізації форми.
@@ -156,18 +151,18 @@ private void initAppIcons() {
 
   private void onButtonClick(ActionEvent evt) {//GEN-FIRST:event_onButtonClick
     switch (evt.getActionCommand()) {
-        // Зміна кольору підказки
-        case "hintColor" -> hfld_text.setHintColor(getRandomColor());
-        // Зміна тексту підказки
-        case "hintText"  -> { hfld_text.setHintText(getNewHintText());
-                              hfld_text.setText(null); }
-        // Відновлення стандартних налаштувань
-        case "reset"     -> resetSettings();
+      // Зміна кольору підказки
+      case "hintColor" -> hfld_text.setHintColor(getRandomColor());
+      // Зміна тексту підказки
+      case "hintText"  -> { hfld_text.setHintText(getNewHintText());
+                            hfld_text.setText(null); }
+      // Відновлення стандартних налаштувань
+      case "reset"     -> resetSettings();
     }
   }//GEN-LAST:event_onButtonClick
 
   private void onParamsChange(JHintTextFieldEvent evt) {//GEN-FIRST:event_onParamsChange
-      IO.println(evt);
+    IO.println(evt);
   }//GEN-LAST:event_onParamsChange
 
   // Variables declaration - do not modify//GEN-BEGIN:variables

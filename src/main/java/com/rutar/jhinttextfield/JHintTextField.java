@@ -18,10 +18,6 @@ private String text = "";                                // текст поля 
 private String hintText = "Заповніть поле";                   // текст підказки
 private Color hintColor = new Color(153, 153, 153);    // колір тексту підказки
 
-private Graphics2D g2;                             // Об'єкт розширеної графіки
-private Insets insets;                                   // Відступи компонента
-private int textX, textY;                            // Позиція тексту підказки
-
 // Масив прослуховувачів подій компонента
 private static ArrayList <JHintTextFieldListener> listeners = null;
 
@@ -75,16 +71,17 @@ protected void paintComponent (Graphics g) {
     if (hintText.isBlank() ||
        !getText().isEmpty() || isFocusOwner()) { return; }
 
-    g2 = (Graphics2D) g.create();
+    var g2 = (Graphics2D) g.create();
     setSystemFontParams(g2);
-    insets = getInsets();
 
+    int textX, textY;
+    var insets = getInsets();
     var hintWidth = g2.getFontMetrics().stringWidth(hintText);
 
     switch (getHorizontalAlignment())
-        { case LEFT  -> textX = insets.left;
-          case RIGHT -> textX = getWidth() - hintWidth - insets.right;
-          default    -> textX = (getWidth() - hintWidth)/2 - 1; }
+      { case LEFT  -> textX = insets.left;
+        case RIGHT -> textX = getWidth() - hintWidth - insets.right;
+        default    -> textX = (getWidth() - hintWidth)/2 - 1; }
 
     textY = getBaseline(getWidth(), getHeight());
 
@@ -101,7 +98,7 @@ private void setSystemFontParams (Graphics2D g)
   { var deshtopHints = Toolkit.getDefaultToolkit()
                               .getDesktopProperty("awt.font.desktophints");
     if (deshtopHints instanceof Map<?, ?> hints)
-        { g.addRenderingHints(hints); } }
+      { g.addRenderingHints(hints); } }
 
 // ============================================================================
 /// Повернення тексту поля введення
@@ -218,15 +215,15 @@ private final DocumentListener docListener = new DocumentListener() {
 
     @Override   // Додавання даних
     public void insertUpdate (DocumentEvent e)
-        { var oldValue = text;
-          text = JHintTextField.super.getText();
-          fireAll("text", oldValue, text); }
+      { var oldValue = text;
+        text = JHintTextField.super.getText();
+        fireAll("text", oldValue, text); }
 
     @Override   // Видалення даних
     public void removeUpdate (DocumentEvent e)
-        { var oldValue = text;
-          text = JHintTextField.super.getText();
-          fireAll("text", oldValue, text); }
+      { var oldValue = text;
+        text = JHintTextField.super.getText();
+        fireAll("text", oldValue, text); }
 
     @Override   // Оновлення форматування (не використовується)
     public void changedUpdate (DocumentEvent e) {}

@@ -26,10 +26,10 @@ private final Class parentClass = JHintTextField.class.getSuperclass();
 
 @Override
 public BeanDescriptor getBeanDescriptor()
-    { if (beanDescriptor == null)
-           { beanDescriptor = new BeanDescriptor(JHintTextField.class);
-             beanDescriptor.setValue("isContainer", Boolean.FALSE); }
-      return beanDescriptor; }
+  { if (beanDescriptor == null)
+         { beanDescriptor = new BeanDescriptor(JHintTextField.class);
+           beanDescriptor.setValue("isContainer", Boolean.FALSE); }
+    return beanDescriptor; }
 
 // ============================================================================
 /// Повернення масиву властивостей доступних для JavaBeans-компонента
@@ -146,10 +146,10 @@ public Image getIcon (int iconType) {
 
 return switch (iconType) {
 
-    case ICON_MONO_16x16, ICON_COLOR_16x16 -> loadIcon(16);
-    case ICON_MONO_32x32, ICON_COLOR_32x32 -> loadIcon(32);
+  case ICON_MONO_16x16, ICON_COLOR_16x16 -> loadIcon(16);
+  case ICON_MONO_32x32, ICON_COLOR_32x32 -> loadIcon(32);
 
-    default -> null;
+  default -> null;
 
 };
 }
